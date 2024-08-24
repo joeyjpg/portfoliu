@@ -5,11 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>That one funny-looking burger has a webpage?!</title>
     <style>
+        .top-window {
+            position: absolute; /* Position it absolutely to layer on top */
+            top: 5px; /* Add padding from the top */
+            left: 5px; /* Padding from the left */
+            width: calc(100% - 10px); /* Full width minus padding on both sides */
+            height: 35px; /* Fixed height */
+            padding: 5px; /* Padding: 5px on all sides */
+            box-sizing: border-box; /* Include padding in the height and width calculation */
+            background-color: rgba(40, 42, 51, 0.678); /* Matching background color */
+            color: #9c9c9c;
+            text-align: center;
+            font-size: 1.2em; /* Adjust as needed */
+            border-radius: 8px; /* Rounded corners */
+            z-index: 10; /* Ensure it is above the grid-container */
+        }
+
+        .status-bar {
+            position: absolute; /* Position it absolutely within the top-window */
+            right: 10px; /* Padding from the right edge of the top-window */
+            bottom: 8px; /* Padding from the bottom edge of the top-window */
+            color: #9c9c9c; /* Text color */
+            font-size: 0.9em; /* Adjust font size as needed */
+            display: flex;
+            align-items: center; /* Center vertically */
+            gap: 10px; /* Space between elements */
+        }
+
+
+        .clock {
+            position: absolute; /* Position it absolutely within the top-window */
+            right: 10px; /* Padding from the right edge of the top-window */
+            top: 5px; /* Center vertically */
+            transform: translateY(-50%); /* Adjust vertical alignment */
+            color: #9c9c9c; /* Text color */
+            font-size: 0.9em; /* Adjust font size as needed */
+            text-align: center;
+            z-index: 11; /* Ensure it is above other content inside the top-window */
+            background: none; /* Remove any background */
+            border: none; /* Remove any border */
+            padding: 0; /* Remove padding */
+            border-radius: 0; /* Remove rounded corners */
+        }
+
+        .number-div {
+            position: absolute; /* Position it absolutely inside the top-window */
+            top: 0px; /* Align with the top of the top-window */
+            left: 0px; /* Align with the left edge of the top-window */
+            width: 120px; /* Fixed width, adjust as needed */
+            height: 35px; /* Height to match the top-window */
+            background-color: rgba(45, 92, 185); /* Matching background color */
+            color: #e2e2e2;
+            text-align: center;
+            line-height: 35px; /* Match line-height to the height to center text vertically */
+            font-size: 1em; /* Adjust font size if needed */
+            border-radius: 8px 0 0 8px; /* Rounded corners on the left side */
+            z-index: 11; /* Ensure it is above other content inside the top-window */
+        }
+
+        /* Ensure body has a relative position to contain the absolutely positioned element */
         body {
-            background-image: url('gradientblue.jpg'); /* Replace with the path to your image */
-            background-size: cover; /* Cover the entire viewport */
-            background-position: center; /* Center the image */
-            background-repeat: no-repeat; /* Prevent repeating */
+            position: relative;
+            background-image: url('gradientblue.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
             display: flex;
             justify-content: center;
@@ -26,8 +86,8 @@
             grid-template-rows: 1fr 1fr;
             grid-template-columns: 1fr 2fr 1fr;
             grid-gap: 20px; /* Spacing between windows */
-            width: 80%;
-            height: 80%;
+            width: 95%;
+            height: 90%;
         }
 
         .window {
@@ -96,6 +156,13 @@
     </style>
 </head>
 <body>
+    <div class="top-window">
+        <div class="number-div">Portfolio</div>
+        <div class="status-bar" id="status-bar">
+            BAT: 7% ↓ | us | RAM 100% | CPU 100% | wlp13s0 ASUS | <span id="clock"></span>
+        </div>
+        <a>Cheesy portfolio - Chromium</a>
+    </div>     
     <div class="grid-container">
         <div class="window top-left">
             <a>joey@𝓯𝓻𝓮𝓪𝓴𝔂𝓭𝓮𝓫:~ $ htmlfetch</a>
@@ -106,7 +173,7 @@
             <a>Uptime: 26 Days</a>
             <a>Packages: 1367 </a>
             <a>Shell: bash 5.2.15 </a>
-            <a>Resolution: 1440x1080 </a>
+            <a>Resolution: 1920x1080 </a>
             <a>WM: i3 </a>
             <a>Terminal: alacritty </a>
             <a>CPU: Intel i7-4702MQ</a>
@@ -158,5 +225,27 @@
             <a>joey@𝓯𝓻𝓮𝓪𝓴𝔂𝓭𝓮𝓫:~ $ █</a>
         </div>
     </div>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}`;
+        }
+    
+        function updateStatus() {
+            const randomPercent = () => Math.floor(Math.random() * 101);
+            
+            document.getElementById('battery').textContent = `${randomPercent()}%`;
+            document.getElementById('ram').textContent = `${randomPercent()}%`;
+            document.getElementById('cpu').textContent = `${randomPercent()}%`;
+        }
+    
+        setInterval(updateClock, 60000); // Update clock every minute
+        setInterval(updateStatus, 10000); // Update status every 10 seconds
+    
+        updateClock(); // Initial call to set time immediately
+        updateStatus(); // Initial call to set status immediately
+    </script>      
 </body>
 </html>
